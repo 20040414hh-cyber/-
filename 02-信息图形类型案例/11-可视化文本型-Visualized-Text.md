@@ -1,7 +1,7 @@
 ---
 kind: presentation-type
 status: lecture-visual-observation
-version: 0.2.0
+version: 0.3.0
 updated: 2026-11-23
 source_title: 第三讲-信息图形类型学(2).pdf；用户上传词云案例
 source_pages: "32；用户上传图片1–2"
@@ -44,6 +44,8 @@ evidence_level: single-or-two-slide-observation
 
 ## 用户新增案例观察：词云式文字构形
 
+<a id="case-0017-文字轮廓构形"></a>
+
 ### CASE-0017｜文字轮廓构形（用户上传图片1）
 
 ![CASE-0017 词云式文字轮廓构形](案例图/CASE-0017-词云-文字轮廓构形.webp)
@@ -61,6 +63,8 @@ evidence_level: single-or-two-slide-observation
 **可借鉴方法**
 - 可先确定目标轮廓，再沿轮廓或区域填入具有主题关联的文本；需要控制重叠率、字距和留白，确保形状与可读性之间的平衡。
 - 若目标是统计词云，应另外建立词频数据和明确的尺寸映射，不能用装饰性排字替代数据编码。
+
+<a id="case-0018-文字路径构形"></a>
 
 ### CASE-0018｜文字路径构形（用户上传图片2）
 
