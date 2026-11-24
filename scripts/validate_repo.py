@@ -3,6 +3,7 @@
 from __future__ import annotations
 import re
 import sys
+import csv
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -52,9 +53,24 @@ for f in files:
         elif not target.exists():
             issues.append(f'broken link: {f.relative_to(ROOT)} -> {link}')
 
-for needed in ('01-混合型信息图形-Mixed-Charts.md', '02-文字型与列表型信息图形-Informational-List.md', '03-时间轴型信息图形-Timeline.md', '案例索引.md', '案例分析模板.md'):
-    if not (CASE/needed).is_file():
-        issues.append(f'missing 02/ document: {needed}')
+for folder in ['01-混合型-Mixed-Charts', '02-文字型列表型-Informational-List', '03-时间轴型-Timeline', '04-示意图型-How-to', '05-流程图型-Process', '06-比较型-Comparison', '07-地标型-Location', '08-图片式-Photo-graphic', '09-层级表现型-Hierarchical', '10-单一图表型-Single-Chart', '11-文字可视化-Visualized-Text', '12-解剖型-Anatomical', '13-视觉简历-Visual-Resume', '14-手稿型-Hand-drawn', '15-编年编目复合型-Hybrid', '16-三维型-3D', '17-词云信息图-Word-Cloud']:
+    if not (CASE/folder/'00-标签说明.md').is_file():
+        issues.append(f'missing tag definition: {folder}')
+
+for f in files:
+    for link in re.findall(r'<img\b[^>]*\bsrc="([^"]+)"', f.read_text(encoding='utf-8')):
+        if not urlparse(link).scheme:
+            target = (f.parent / unquote(link)).resolve()
+            if not target.is_relative_to(ROOT.resolve()) or not target.is_file():
+                issues.append(f'broken HTML image: {f.relative_to(ROOT)} -> {link}')
+
+for f in ROOT.rglob('*.csv'):
+    with f.open(encoding='utf-8-sig', newline='') as stream:
+        rows = [row for row in csv.reader(stream) if row]
+    if not rows or len(set(rows[0])) != len(rows[0]):
+        issues.append(f'invalid CSV header: {f.relative_to(ROOT)}')
+    elif any(len(row) != len(rows[0]) for row in rows):
+        issues.append(f'inconsistent CSV fields: {f.relative_to(ROOT)}')
 
 if issues:
     for i in issues:
